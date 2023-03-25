@@ -1,0 +1,27 @@
+{
+    "folders": [
+        {
+            "path": "scripts",
+            "name": "Scripts"
+        },
+        {
+            "path": "documentation",
+            "name": "Documentation"
+        },
+        {
+            "path": "auth-service"
+        },
+        {
+            "path": "logs-service"
+        },
+        {
+            "path": "bff-service"
+        },
+        {
+            "path": "notes-service"
+        },
+        {
+            "path": "search-service"
+        },
+    ]
+}
