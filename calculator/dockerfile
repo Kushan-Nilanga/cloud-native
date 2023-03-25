@@ -22,3 +22,5 @@ CMD [ "node", "index.js" ]
 
 # docker build -t calculator .
 # docker run -p 3000:3000 calculator
+# docker tag calculator:latest dknathalage/calculator:latest
+# docker push dknathalage/calculator:latest
