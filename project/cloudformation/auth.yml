@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Resources:
+
+  UserPool:
+    Type: "AWS::Cognito::UserPool"
+    Properties:
+      UserPoolName: "example-user-pool"
+      UsernameAttributes:
+        - "email"
+      AutoVerifiedAttributes:
+        - "email"
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: false
+      VerificationMessageTemplate:
+        EmailMessage: "Click the following link to verify your email address: {####}"
+        EmailSubject: "Verify your email for our app"
+      EmailVerificationSubject: "Verify your email for our app"
+      EmailVerificationMessage: "Click the following link to verify your email address: {####}"
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: true
+          RequireUppercase: true
+      Schema:
+        - AttributeDataType: "String"
+          Name: "email"
+          Required: true
+
+  UserPoolClient:
+    Type: "AWS::Cognito::UserPoolClient"
+    Properties:
+      UserPoolId: !Ref UserPool
+      ClientName: "example-client"
+      GenerateSecret: false
+      ExplicitAuthFlows:
+        - "USER_PASSWORD_AUTH"
+      AllowedOAuthFlows:
+        - "code"
+      AllowedOAuthScopes:
+        - "email"
+        - "openid"
+        - "profile"
+      CallbackURLs:
+        - "https://example.com"
+
+Outputs:
+
+  UserPoolId:
+    Value: !Ref UserPool
+
+  UserPoolClientId:
+    Value: !Ref UserPoolClient

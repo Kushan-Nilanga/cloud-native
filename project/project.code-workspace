@@ -1,27 +1,40 @@
 {
     "folders": [
         {
-            "path": "scripts",
-            "name": "Scripts"
-        },
-        {
             "path": "documentation",
-            "name": "Documentation"
+            "name": "misc-documentation"
         },
         {
-            "path": "auth-service"
+            "path": "scripts",
+            "name": "dev-scripts"
         },
         {
-            "path": "logs-service"
+            "path": "cloudformation",
+            "name": "infra-cloudformation"
         },
         {
-            "path": "bff-service"
+            "path": "auth-service",
+            "name": "svc-auth"
         },
         {
-            "path": "notes-service"
+            "path": "logs-service",
+            "name": "svc-logs"
         },
         {
-            "path": "search-service"
+            "path": "bff-service",
+            "name": "svc-bff"
         },
+        {
+            "path": "notes-service",
+            "name": "svc-notes"
+        },
+        {
+            "path": "search-service",
+            "name": "svc-search"
+        },
+        {
+            "path": "frontend-service",
+            "name": "svc-frontend"
+        }
     ]
 }

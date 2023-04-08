@@ -9,3 +9,18 @@ down:
 	@echo "Stopping and removing docker compose"
 	docker-compose down
 	@echo "Docker compose stopped"
+
+## deploy auth cloudformation stack
+deploy-auth-cf:
+	@echo "Deploying auth cloudformation stack"
+	aws cloudformation deploy --template-file ../cloudformation/auth.yml --stack-name auth --capabilities CAPABILITY_NAMED_IAM
+	@echo "Auth cloudformation stack deployed"
+
+## deploy notes cloudformation stack
+deploy-notes-cf:
+	@echo "Deploying notes cloudformation stack"
+	aws cloudformation deploy --template-file ../cloudformation/notes.yml --stack-name notes --capabilities CAPABILITY_NAMED_IAM
+	@echo "Notes cloudformation stack deployed"
+
+## down and up docker compose
+restart: deploy-auth-cf deploy-notes-cf down up

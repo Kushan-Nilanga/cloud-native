@@ -1,13 +1,89 @@
 version: '3'
 
 services:
+  auth-service:
+    build:
+      context: ./../auth-service
+      dockerfile: Dockerfile
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    networks:
+      - private
+
   logs-service:
-    build: 
+    build:
       context: ./../logs-service
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    networks:
+      - private
+
+  bff-service:
+    build:
+      context: ./../bff-service
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "8080:80"
     deploy:
       mode: replicated
       replicas: 1
+    networks:
+      - private
+      - public
+    environment:
+      - auth-service=http://auth-service
+      - notes-service=http://notes-service
+      - search-service=http://search-service
+
+  notes-service:
+    build:
+      context: ./../notes-service
+      dockerfile: Dockerfile
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    networks:
+      - private
+    environment:
+      - logs-service=http://logs-service
+
+  search-service:
+    build:
+      context: ./../search-service
+      dockerfile: Dockerfile
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    networks:
+      - private
+    environment:
+      - logs-service=http://logs-service
+
+  frontend-service:
+    build:
+      context: ./../frontend-service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+    deploy:
+      mode: replicated
+      replicas: 1
+    networks:
+      - public
+    environment:
+      - bff-service=http://bff-service
+
+networks:
+  public:
+    driver: bridge
+  private:
+    driver: bridge

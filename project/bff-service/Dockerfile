@@ -7,15 +7,17 @@ COPY . /app
 
 WORKDIR /app
 
-RUN CGO_ENABLED=0 go build -o logsApp ./cmd/api
+RUN go mod tidy
 
-RUN chmod +x /app/logsApp
+RUN CGO_ENABLED=0 go build -o bffApp ./cmd/api
+
+RUN chmod +x /app/bffApp
 
 # build a tiny docker image
 FROM alpine:latest
 
 RUN mkdir /app
 
-COPY --from=builder /app/logsApp /app
+COPY --from=builder /app/bffApp /app
 
-CMD [ "/app/logsApp" ]
+CMD [ "/app/bffApp" ]
