@@ -1,0 +1,6 @@
+# this template create code pipeline for the project
+# code is stored in github
+# code is build using codebuild
+# code is deployed using cloudformation
+# code will be run on EKS cluster
+# images are stored in ECR

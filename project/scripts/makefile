@@ -22,5 +22,11 @@ deploy-notes-cf:
 	aws cloudformation deploy --template-file ../cloudformation/notes.yml --stack-name notes --capabilities CAPABILITY_NAMED_IAM
 	@echo "Notes cloudformation stack deployed"
 
+## deploy k8s cloudformation stack
+deploy-k8s-cf:
+	@echo "Deploying k8s cloudformation stack"
+	aws cloudformation deploy --template-file ../cloudformation/k8s.yml --stack-name k8s --capabilities CAPABILITY_NAMED_IAM
+	@echo "K8s cloudformation stack deployed"
+
 ## down and up docker compose
 restart: deploy-auth-cf deploy-notes-cf down up

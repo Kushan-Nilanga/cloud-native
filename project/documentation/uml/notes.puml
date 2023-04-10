@@ -1,0 +1,168 @@
+@startuml
+
+participant "frontend-service" as front
+participant "bff-service" as bff
+participant "auth-service" as auth
+participant "note-service" as notes
+database "Notes (DynamoDB)" as dynamodb
+
+== NOTES SERVICE ==
+== List Notes ==
+
+front -> bff: GET /api/notes/
+note right of front
+    Header
+    Authorization:
+    Bearer <token>
+end note
+
+group Authentication
+    bff -> auth: POST /api/authenticate
+    note right of bff: {token}
+
+    auth --> bff: 200 OK
+    note left of auth: AuthOutput
+end
+
+bff -> notes: GET /api/notes/{userid}
+
+group aws-api
+    notes -> dynamodb: GET
+    dynamodb --> notes: 200 OK
+end
+
+notes --> bff: 200 OK
+note left of notes
+    [{id, title, content, created, updated}]
+end note
+
+bff --> front: 200 OK
+note left of bff
+    [{id, title, content, created, updated}]
+end note
+
+== Get Note ==
+front -> bff: GET /api/notes/{created}
+note right of front
+    Header
+    Authorization:
+    Bearer <token>
+end note
+
+group Authentication
+    bff -> auth: POST /api/authenticate
+    note right of bff: {token}
+
+    auth --> bff: 200 OK
+    note left of auth: AuthOutput
+end
+
+bff -> notes: GET /api/notes/{userid}/{created}
+
+group aws-api
+    notes -> dynamodb: GET
+    dynamodb --> notes: 200 OK
+end
+
+notes --> bff: 200 OK
+
+bff --> front: 200 OK
+
+== Create Note ==
+front -> bff: POST /api/notes/
+note right of front
+    Header
+    Authorization:
+    Bearer <token>
+    Body
+    {title, content}
+end note
+
+group Authentication
+    bff -> auth: POST /api/authenticate
+    note right of bff: {token}
+
+    auth --> bff: 200 OK
+    note left of auth: AuthOutput
+end
+
+bff -> notes: POST /api/notes/{userid}
+note right of bff
+    Body
+    {userid, title,
+    content, created,
+    updated}
+end note
+
+group aws-api
+    notes -> dynamodb: POST
+    dynamodb --> notes: 200 OK
+end
+
+notes --> bff: 200 OK
+
+bff --> front: 200 OK
+
+== Update Note ==
+
+front -> bff: PUT /api/notes/{created}
+note right of front
+    Header
+    Authorization:
+    Bearer <token>
+    Body
+    {title, content}
+end note
+
+group Authentication
+    bff -> auth: POST /api/authenticate
+    note right of bff: {token}
+
+    auth --> bff: 200 OK
+    note left of auth: AuthOutput
+end
+
+bff -> notes: PUT /api/notes/{userid}/{created}
+note right of bff
+    Body
+    {userid, id, title,
+    content, created,
+    updated}
+end note
+
+group aws-api
+    notes -> dynamodb: PUT
+    dynamodb --> notes: 200 OK
+end
+
+notes --> bff: 200 OK
+
+bff --> front: 200 OK
+
+== Delete Note ==
+
+front -> bff: DELETE /api/notes/{created}
+note right of front
+    Header
+    Authorization
+    Bearer <token>
+end note
+
+group Authentication
+    bff -> auth: POST /api/authenticate
+    note right of bff: {token}
+
+    auth --> bff: 200 OK
+
+    bff -> notes: DELETE /api/notes/{userid}/{created}
+
+    group aws-api
+        notes -> dynamodb: DELETE
+        dynamodb --> notes: 200 OK
+    end
+
+    notes --> bff: 200 OK
+
+    bff --> front: 200 OK
+
+    @enduml

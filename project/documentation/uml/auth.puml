@@ -1,0 +1,86 @@
+@startuml
+
+participant "frontend-service" as front
+participant "bff-service" as bff
+participant "auth-service" as auth
+database "Users (AWS Cognito)" as cognito
+
+
+
+== SIGN UP FLOWS ==
+== Sign Up ==
+
+front -> bff: POST /api/auth/signup
+note right of front: {email, password}
+
+bff -> auth: POST /api/signup
+note right of bff: {email, password}
+
+group aws-api
+    auth -> cognito: POST /signup
+    cognito --> auth: 200 OK
+end
+
+auth --> bff: 200 OK
+
+bff --> front: 200 OK
+
+== Sign In ==
+
+front -> bff: POST /api/auth/signin
+note right of front: {email, password}
+
+bff -> auth: POST /api/signin
+note right of bff: {email, password}
+
+group aws-api
+    auth -> cognito: POST /signin
+    cognito --> auth: 200 OK
+end
+
+auth --> bff: 200 OK
+note left of auth: {token}
+
+bff --> front: 200 OK
+note left of bff: {token}
+
+== Verify Email ==
+
+front -> bff: POST /api/auth/verify-email
+note right of front: {token}
+
+bff -> auth: POST /api/verify-email
+note right of bff: {token}
+
+group aws-api
+    auth -> cognito: POST /verify-email
+    cognito --> auth: 200 OK
+end
+
+auth --> bff: 200 OK
+
+bff --> front: 200 OK
+
+== Authentication ==
+
+bff -> auth: POST /api/authenticate
+note right of bff: {token}
+
+group aws-api
+    auth -> cognito: POST /authenticate
+    cognito --> auth: 200 OK
+end
+
+auth --> bff: 200 OK
+note left of auth
+    {"MFAOptions":null,
+    "PreferredMfaSetting":null,
+    "UserAttributes":[
+    {"Name":"sub","Value":"<sub>"},
+    {"Name":"email_verified","Value":"true"},
+    {"Name":"email","Value":"<email>"}],
+    "UserMFASettingList":null,
+    "Username":"<uname>"}
+end note
+
+@enduml

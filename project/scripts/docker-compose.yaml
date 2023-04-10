@@ -11,6 +11,10 @@ services:
       replicas: 1
     networks:
       - private
+    ports:
+      - "8081:80"
+    environment:
+      - logs-service=http://logs-service
 
   logs-service:
     build:
@@ -53,6 +57,8 @@ services:
       - private
     environment:
       - logs-service=http://logs-service
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 
   search-service:
     build:
@@ -66,6 +72,8 @@ services:
       - private
     environment:
       - logs-service=http://logs-service
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 
   frontend-service:
     build:

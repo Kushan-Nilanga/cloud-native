@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="Architecture" id="ViDdVU3fCNW2upOSIPjm">
-        <mxGraphModel dx="860" dy="519" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="446" dy="534" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -278,6 +278,9 @@
                 </mxCell>
                 <mxCell id="XZUPAo8GXQ_Ro02G_9b--3" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;elastic-search&lt;/font&gt;" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#D45B07;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.container_1;" parent="1" vertex="1">
                     <mxGeometry x="516.79" y="580" width="46.45" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="public" style="outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;strokeColor=#879196;fillColor=none;verticalAlign=top;align=center;fontColor=#879196;dashed=1;spacingTop=3;" vertex="1" parent="1">
+                    <mxGeometry x="369" y="350" width="70" height="220" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
